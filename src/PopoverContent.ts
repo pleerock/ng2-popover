@@ -67,6 +67,9 @@ export class PopoverContent implements AfterViewInit, OnDestroy {
     @Input()
     closeOnMouseOutside: boolean = false;
 
+    @Input()
+    appendToBody: boolean = false;
+
     // -------------------------------------------------------------------------
     // Properties
     // -------------------------------------------------------------------------
@@ -137,7 +140,7 @@ export class PopoverContent implements AfterViewInit, OnDestroy {
         if (!this.popover || !this.popover.getElement())
             return;
 
-        const p = this.positionElements(this.popover.getElement(), this.popoverDiv.nativeElement, this.placement);
+        const p = this.positionElements(this.popover.getElement(), this.popoverDiv.nativeElement, this.placement, this.appendToBody);
         this.displayType = "block";
         this.top = p.top;
         this.left = p.left;
