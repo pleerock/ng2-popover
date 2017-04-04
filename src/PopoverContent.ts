@@ -9,8 +9,7 @@ import {Popover} from "./Popover";
      [style.left]="left + 'px'"
      [class.in]="isIn"
      [class.fade]="animation"
-     style="display: block"
-     role="popover">
+     style="display: block">
     <div [hidden]="!closeOnMouseOutside" class="virtual-area"></div>
     <div class="arrow"></div> 
     <h3 class="popover-title" [hidden]="!title">{{ title }}</h3>
