@@ -1,89 +1,112 @@
-import {Component, Input, AfterViewInit, ElementRef, ChangeDetectorRef, OnDestroy, ViewChild, EventEmitter, Renderer } from "@angular/core";
+import {
+    Component,
+    Input,
+    AfterViewInit,
+    ElementRef,
+    ChangeDetectorRef,
+    OnDestroy,
+    ViewChild,
+    EventEmitter,
+    Renderer
+} from "@angular/core";
 import {Popover} from "./Popover";
 
 @Component({
     selector: "popover-content",
     template: `
-<div #popoverDiv class="popover {{ effectivePlacement }}"
-     [style.top]="top + 'px'"
-     [style.left]="left + 'px'"
-     [class.in]="isIn"
-     [class.fade]="animation"
-     style="display: block"
-     role="popover">
-    <div [hidden]="!closeOnMouseOutside" class="virtual-area"></div>
-    <div class="arrow"></div> 
-    <h3 class="popover-title" [hidden]="!title">{{ title }}</h3>
-    <div class="popover-content">
+    <div #popoverDiv class="popover {{ effectivePlacement }}"
+         [style.top]="top + 'px'"
+         [style.left]="left + 'px'"
+         [class.in]="isIn"
+         [class.fade]="animation"
+         style="display: block"
+         role="popover">
+      <div [hidden]="!closeOnMouseOutside" class="virtual-area"></div>
+      <div class="arrow"></div>
+      <h3 class="popover-title" [hidden]="!title">{{ title }}</h3>
+      <div class="popover-content">
         <ng-content></ng-content>
         {{ content }}
-    </div> 
-</div>
-`,
+      </div>
+    </div>
+  `,
     styles: [`
-.popover .virtual-area {
-    height: 11px;
-    width: 100%;
-    position: absolute;
-}
-.popover.top .virtual-area {
-    bottom: -11px; 
-}
-.popover.bottom .virtual-area {
-    top: -11px; 
-}
-.popover.left .virtual-area {
-    right: -11px; 
-}
-.popover.right .virtual-area {
-    left: -11px; 
-}
-`]
+    .popover .virtual-area {
+      height: 11px;
+      width: 100%;
+      position: absolute;
+    }
+
+    .popover.top .virtual-area {
+      bottom: -11px;
+    }
+
+    .popover.bottom .virtual-area {
+      top: -11px;
+    }
+
+    .popover.left .virtual-area {
+      right: -11px;
+    }
+
+    .popover.right .virtual-area {
+      left: -11px;
+    }
+  `]
 })
 export class PopoverContent implements AfterViewInit, OnDestroy {
 
     // -------------------------------------------------------------------------
-    // Inputs / Outputs 
+    // Inputs / Outputs
     // -------------------------------------------------------------------------
 
     // @Input()
     // hostElement: HTMLElement;
 
     @Input()
-    content: string;
+    public content: string;
 
     @Input()
-    placement: "top"|"bottom"|"left"|"right"|"auto"|"auto top"|"auto bottom"|"auto left"|"auto right" = "bottom";
+    public placement:
+        "top"
+        | "bottom"
+        | "left"
+        | "right"
+        | "auto"
+        | "auto top"
+        | "auto bottom"
+        | "auto left"
+        | "auto right" = "bottom";
 
     @Input()
-    title: string;
+    public title: string;
 
     @Input()
-    animation: boolean = true;
+    public animation: boolean = true;
 
     @Input()
-    closeOnClickOutside: boolean = false;
+    public closeOnClickOutside: boolean = false;
 
     @Input()
-    closeOnMouseOutside: boolean = false;
+    public closeOnMouseOutside: boolean = false;
 
     // -------------------------------------------------------------------------
     // Properties
     // -------------------------------------------------------------------------
 
     @ViewChild("popoverDiv")
-    popoverDiv: ElementRef;
+    public popoverDiv: ElementRef;
 
-    popover: Popover;
-    onCloseFromOutside = new EventEmitter();
-    top: number = -10000;
-    left: number = -10000;
-    isIn: boolean = false;
-    displayType: string = "none";
-    effectivePlacement: string;
+    public popover: Popover;
+    public onCloseFromOutside = new EventEmitter();
+    public top: number = -10000;
+    public left: number = -10000;
+    public isIn: boolean = false;
+    public displayType: string = "none";
+    public effectivePlacement: string;
 
     // -------------------------------------------------------------------------
-    // Anonymous 
+    // Anonymous
     // -------------------------------------------------------------------------
 
     /**
@@ -112,11 +135,12 @@ export class PopoverContent implements AfterViewInit, OnDestroy {
 
     listenClickFunc: any;
     listenMouseFunc: any;
+
     ngAfterViewInit(): void {
         if (this.closeOnClickOutside)
-            this.listenClickFunc = this.renderer.listenGlobal("document", "mousedown", (event: any) => this.onDocumentMouseDown(event));               
+            this.listenClickFunc = this.renderer.listenGlobal("document", "mousedown", (event: any) => this.onDocumentMouseDown(event));
         if (this.closeOnMouseOutside)
-            this.listenMouseFunc = this.renderer.listenGlobal("document", "mouseover", (event: any) => this.onDocumentMouseDown(event));  
+            this.listenMouseFunc = this.renderer.listenGlobal("document", "mouseover", (event: any) => this.onDocumentMouseDown(event));
 
         this.show();
         this.cdr.detectChanges();
@@ -230,7 +254,7 @@ export class PopoverContent implements AfterViewInit, OnDestroy {
     }
 
     protected position(nativeEl: HTMLElement): { width: number, height: number, top: number, left: number } {
-        let offsetParentBCR = { top: 0, left: 0 };
+        let offsetParentBCR = {top: 0, left: 0};
         const elBCR = this.offset(nativeEl);
         const offsetParentEl = this.parentOffsetEl(nativeEl);
         if (offsetParentEl !== window.document) {
