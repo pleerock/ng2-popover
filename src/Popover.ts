@@ -1,4 +1,16 @@
-import { Directive, HostListener, ComponentRef, ViewContainerRef, ComponentFactoryResolver, ComponentFactory, Input, OnChanges, SimpleChange, Output, EventEmitter } from "@angular/core";
+import {
+    Directive,
+    HostListener,
+    ComponentRef,
+    ViewContainerRef,
+    ComponentFactoryResolver,
+    ComponentFactory,
+    Input,
+    OnChanges,
+    SimpleChange,
+    Output,
+    EventEmitter
+} from "@angular/core";
 import {PopoverContent} from "./PopoverContent";
 
 @Directive({
@@ -28,44 +40,53 @@ export class Popover implements OnChanges {
     // -------------------------------------------------------------------------
 
     @Input("popover")
-    content: string|PopoverContent;
+    public content: string | PopoverContent;
 
     @Input()
-    popoverDisabled: boolean;
+    public popoverDisabled: boolean;
 
     @Input()
-    popoverAnimation: boolean;
+    public popoverAnimation: boolean;
 
     @Input()
-    popoverPlacement: "top"|"bottom"|"left"|"right"|"auto"|"auto top"|"auto bottom"|"auto left"|"auto right";
+    public popoverPlacement:
+        "top"
+        | "bottom"
+        | "left"
+        | "right"
+        | "auto"
+        | "auto top"
+        | "auto bottom"
+        | "auto left"
+        | "auto right";
 
     @Input()
-    popoverTitle: string;
+    public popoverTitle: string;
 
     @Input()
-    popoverOnHover: boolean = false;
+    public popoverOnHover: boolean = false;
 
     @Input()
-    popoverCloseOnClickOutside: boolean;
+    public popoverCloseOnClickOutside: boolean;
 
     @Input()
-    popoverCloseOnMouseOutside: boolean;
+    public popoverCloseOnMouseOutside: boolean;
 
     @Input()
-    popoverDismissTimeout: number = 0;
+    public popoverDismissTimeout: number = 0;
 
     @Output()
-    onShown = new EventEmitter<Popover>();
+    public onShown = new EventEmitter<Popover>();
 
     @Output()
-    onHidden = new EventEmitter<Popover>();
+    public onHidden = new EventEmitter<Popover>();
 
     // -------------------------------------------------------------------------
     // Event listeners
     // -------------------------------------------------------------------------
 
     @HostListener("click")
-    showOrHideOnClick(): void {
+    public showOrHideOnClick(): void {
         if (this.popoverOnHover) return;
         if (this.popoverDisabled) return;
         this.toggle();
@@ -73,7 +94,7 @@ export class Popover implements OnChanges {
 
     @HostListener("focusin")
     @HostListener("mouseenter")
-    showOnHover(): void {
+    public showOnHover(): void {
         if (!this.popoverOnHover) return;
         if (this.popoverDisabled) return;
         this.show();
@@ -81,14 +102,14 @@ export class Popover implements OnChanges {
 
     @HostListener("focusout")
     @HostListener("mouseleave")
-    hideOnHover(): void {
+    public hideOnHover(): void {
         if (this.popoverCloseOnMouseOutside) return; // don't do anything since not we control this
         if (!this.popoverOnHover) return;
         if (this.popoverDisabled) return;
         this.hide();
     }
 
-    ngOnChanges(changes: {[propertyName: string]: SimpleChange}) {
+    ngOnChanges(changes: { [propertyName: string]: SimpleChange }) {
         if (changes["popoverDisabled"]) {
             if (changes["popoverDisabled"].currentValue) {
                 this.hide();
@@ -100,7 +121,7 @@ export class Popover implements OnChanges {
     // Public Methods
     // -------------------------------------------------------------------------
 
-    toggle() {
+    public toggle() {
         if (!this.visible) {
             this.show();
         } else {
@@ -108,7 +129,7 @@ export class Popover implements OnChanges {
         }
     }
 
-    show() {
+    public show() {
         if (this.visible) return;
 
         this.visible = true;
@@ -160,7 +181,7 @@ export class Popover implements OnChanges {
         this.onShown.emit(this);
     }
 
-    hide() {
+    public hide() {
         if (!this.visible) return;
 
         this.visible = false;
@@ -173,7 +194,7 @@ export class Popover implements OnChanges {
         this.onHidden.emit(this);
     }
 
-    getElement() {
+    public getElement() {
         return this.viewContainerRef.element.nativeElement;
     }
 
