@@ -78,12 +78,15 @@ Example of usage with dynamic html content:
     * `[animation]="true|false"` Indicates if all popover should be shown with animation or not. Default is **true**.
     * `[closeOnMouseOutside]="true|false"` Indicates if popover should be closed when user mouse outside of it. Default is **false**.
     * `[closeOnClickOutside]="true|false"` Indicates if popover should be closed when you click outside of it. Default is **false**.
+    * `(onShown)="popoverShown($event)"` Triggers when popover is shown and passes through reference to popover in `$event`.
+    * `(onHidden)="popoverHidden($event)"` Triggers when popover is hidden and passes through reference to popover in `$event`.
 
 ## Sample
 
 ```typescript
 import {Component} from "@angular/core";
-import {PopoverModule} from "ngx-popover";
+import {PopoverModule, Popover} from "ngx-popover";
+
 
 @Component({
     selector: "app",
@@ -114,7 +117,7 @@ import {PopoverModule} from "ngx-popover";
             Click outside of this popover and it will be dismissed automatically.
         </popover-content>
 
-        <button [popover]="myPopover">click this button to see a popover</button>
+        <button [popover]="myPopover" (onShown)="popoverShown($event)" (onHidden)="popoverHidden($event)">click this button to see a popover</button>
     </div>
 
     <!-- popover show on hover -->
@@ -144,6 +147,16 @@ import {PopoverModule} from "ngx-popover";
 `
 })
 export class App {
+
+  constructor() {}
+  
+  popoverShown(popover: Popover) {
+    console.log('Popover shown:', popover);
+  }
+  
+  popoverHidden(popover: Popover) {
+    console.log('Popover hidden:', popover);
+  }
 
 }
 
