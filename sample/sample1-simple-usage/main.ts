@@ -2,6 +2,7 @@ import {platformBrowserDynamic} from "@angular/platform-browser-dynamic";
 import {Component, NgModule} from "@angular/core";
 import {PopoverModule} from "../../src/index";
 import {BrowserModule} from "@angular/platform-browser";
+import { Popover } from 'ngx-popover';
 
 @Component({
     selector: "app",
@@ -34,7 +35,7 @@ import {BrowserModule} from "@angular/platform-browser";
             <u (click)="myPopover.hide()">Or click here to close it</u>.
         </popover-content>
         
-        <button [popover]="myPopover">click this button to see a popover</button>
+        <button [popover]="myPopover" (onShown)="popoverShown($event)" (onHidden)="popoverHidden($event)">click this button to see a popover</button>
     </div>
 
     <!-- popover show on hover -->
@@ -71,6 +72,16 @@ import {BrowserModule} from "@angular/platform-browser";
 `
 })
 export class Sample1App {
+
+    constructor() {}
+
+    popoverShown(popover: Popover) {
+        console.log('Popover shown:', popover);
+    }
+    
+    popoverHidden(popover: Popover) {
+        console.log('Popover hidden:', popover);
+    }
 
 }
 
